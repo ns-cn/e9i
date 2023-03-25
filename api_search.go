@@ -89,16 +89,16 @@ func (song ApiSearchSong) toModel() Song {
 
 // Album 搜索结果的专辑模型
 type ApiSearchAlbum struct {
-	ID          int64    `json:"id"`
-	Name        string   `json:"name"`
-	Artist      Artist   `json:"artist"`
-	PublishTime int64    `json:"publishTime"`
-	Size        int64    `json:"size"`
-	CopyrightID int64    `json:"copyrightId"`
-	Status      int64    `json:"status"`
-	PicID       int64    `json:"picId"`
-	Mark        int64    `json:"mark"`
-	Alia        []string `json:"alia"`
+	ID          int64           `json:"id"`
+	Name        string          `json:"name"`
+	Artist      ApiSearchArtist `json:"artist"`
+	PublishTime int64           `json:"publishTime"`
+	Size        int64           `json:"size"`
+	CopyrightID int64           `json:"copyrightId"`
+	Status      int64           `json:"status"`
+	PicID       int64           `json:"picId"`
+	Mark        int64           `json:"mark"`
+	Alia        []string        `json:"alia"`
 }
 
 // toModel 专辑的搜索结果模型转换为内部模型
