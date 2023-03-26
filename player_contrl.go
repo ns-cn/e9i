@@ -66,7 +66,7 @@ func Play(song Song) {
 	sr := format.SampleRate * 2
 	OnProcessing = true
 	paused = false
-	speaker.Init(sr, sr.N(time.Second/10))
+	_ = speaker.Init(sr, sr.N(time.Second/100))
 	resampled := beep.Resample(4, format.SampleRate, sr, streamer)
 
 	// Play the audio
