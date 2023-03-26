@@ -1,5 +1,7 @@
 package main
 
+import "github.com/ns-cn/e9i/source"
+
 const (
 	apiNeteaseURL = "https://music.163.com/song/media/outer/url?id=%s.mp3"
 )
@@ -20,10 +22,25 @@ type Song struct {
 
 // GetPath 获取可用于播放的URL
 func (song Song) GetPath() string {
-	if song.Source == NetEase {
+	if song.Source == source.NetEase {
 		return NeteaseSongURL(song.ID)
 	}
 	panic("不受支持的数据源")
+}
+
+func (song Song) GetArtistDisplay() string {
+	result := ""
+	artistSize := len(song.Artists)
+	if artistSize > 0 {
+		for _, artist := range song.Artists {
+			result += artist.Name + ","
+		}
+	}
+	if len(result) > 1 {
+		return result[:len(result)-1]
+	} else {
+		return ""
+	}
 }
 
 // Artist 歌手模型

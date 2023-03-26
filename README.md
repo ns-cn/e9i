@@ -1,2 +1,4 @@
 # e9i
-Music player: E9I. Just like 163.
+Music player: E9I. Faker of 163.
+
+![运行截图](demo.png)

@@ -3,13 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/ns-cn/e9i/source"
 	"net/http"
 	"strconv"
 )
 
 const (
 	// apiSearch 搜索的接口URL
-	apiSearh = "https://api.tangyujun.com/search?keywords=%s"
+	apiSearh = "https://api.tangyujun.com/search?keywords=%s&realIP=116.25.146.177"
 )
 
 // Search 搜索关键词
@@ -47,14 +48,14 @@ func (result ApiSearchResult) GetSongs() []Song {
 	return songs
 }
 
-// Result 结果的内部结果
+// ApiSearchResultResult 结果的内部结果
 type ApiSearchResultResult struct {
 	Songs     []ApiSearchSong `json:"songs"`
 	HasMore   bool            `json:"hasMore"`
 	SongCount int64           `json:"songCount"`
 }
 
-// Song 单个歌曲的信息
+// ApiSearchSong 单个歌曲的信息
 type ApiSearchSong struct {
 	ID          int64             `json:"id"`
 	Name        string            `json:"name"`
@@ -62,7 +63,7 @@ type ApiSearchSong struct {
 	Album       ApiSearchAlbum    `json:"album"`
 	Duration    int64             `json:"duration"`
 	CopyrightID int64             `json:"copyrightId"`
-	Status      int64             `json:"status"`
+	Status      int64             `json:"command"`
 	Alias       []string          `json:"alias"`
 	Rtype       int64             `json:"rtype"`
 	Ftype       int64             `json:"ftype"`
@@ -76,7 +77,7 @@ type ApiSearchSong struct {
 // toModel 将歌曲转换为内部的模型
 func (song ApiSearchSong) toModel() Song {
 	target := Song{}
-	target.Source = NetEase
+	target.Source = source.NetEase
 	target.ID = strconv.FormatInt(song.ID, 10)
 	target.Name = song.Name
 	target.Artists = make([]Artist, 0)
@@ -87,7 +88,7 @@ func (song ApiSearchSong) toModel() Song {
 	return target
 }
 
-// Album 搜索结果的专辑模型
+// ApiSearchAlbum 搜索结果的专辑模型
 type ApiSearchAlbum struct {
 	ID          int64           `json:"id"`
 	Name        string          `json:"name"`
@@ -95,7 +96,7 @@ type ApiSearchAlbum struct {
 	PublishTime int64           `json:"publishTime"`
 	Size        int64           `json:"size"`
 	CopyrightID int64           `json:"copyrightId"`
-	Status      int64           `json:"status"`
+	Status      int64           `json:"command"`
 	PicID       int64           `json:"picId"`
 	Mark        int64           `json:"mark"`
 	Alia        []string        `json:"alia"`
@@ -104,13 +105,13 @@ type ApiSearchAlbum struct {
 // toModel 专辑的搜索结果模型转换为内部模型
 func (album ApiSearchAlbum) toModel() Album {
 	target := Album{}
-	target.Source = NetEase
+	target.Source = source.NetEase
 	target.ID = strconv.FormatInt(album.ID, 10)
 	target.Name = album.Name
 	return target
 }
 
-// Artist 歌手
+// ApiSearchArtist 歌手
 type ApiSearchArtist struct {
 	ID        int64         `json:"id"`
 	Name      string        `json:"name"`
@@ -127,7 +128,7 @@ type ApiSearchArtist struct {
 // toModel 接口模型转内部模型
 func (artist ApiSearchArtist) toModel() Artist {
 	target := Artist{}
-	target.Source = NetEase
+	target.Source = source.NetEase
 	target.ID = strconv.FormatInt(artist.ID, 10)
 	target.Name = artist.Name
 	return target

@@ -46,7 +46,7 @@ type ApiSongUrlData struct {
 	Expi                   int64                            `json:"expi"`
 	Type                   string                           `json:"type"`
 	Gain                   float64                          `json:"gain"`
-	Peak                   int64                            `json:"peak"`
+	Peak                   float64                          `json:"peak"`
 	Fee                    int64                            `json:"fee"`
 	Uf                     interface{}                      `json:"uf"`
 	Payed                  int64                            `json:"payed"`
