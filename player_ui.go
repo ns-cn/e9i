@@ -30,20 +30,22 @@ var input *widget.Entry
 
 func Ui() fyne.CanvasObject {
 
-	toolbar := widget.NewToolbar(
-		widget.NewToolbarAction(theme.DocumentCreateIcon(), func() {}),
-		widget.NewToolbarSeparator(),
-		widget.NewToolbarAction(theme.ContentCutIcon(), func() {}),
-		widget.NewToolbarAction(theme.ContentCopyIcon(), func() {}),
-		widget.NewToolbarAction(theme.ContentPasteIcon(), func() {}),
-		widget.NewToolbarSpacer(),
-		widget.NewToolbarAction(theme.HelpIcon(), func() {
-			tabs.SelectIndex(1)
-		}),
-	)
+	//toolbar := widget.NewToolbar(
+	//	widget.NewToolbarAction(theme.DocumentCreateIcon(), func() {}),
+	//	widget.NewToolbarSeparator(),
+	//	widget.NewToolbarAction(theme.ContentCutIcon(), func() {}),
+	//	widget.NewToolbarAction(theme.ContentCopyIcon(), func() {}),
+	//	widget.NewToolbarAction(theme.ContentPasteIcon(), func() {}),
+	//	widget.NewToolbarSpacer(),
+	//	widget.NewToolbarAction(theme.HelpIcon(), func() {
+	//		tabs.SelectIndex(1)
+	//	}),
+	//)
 
 	tabs = container.NewAppTabs(
 		UiSearchTab(),
+		UiStarTab(),
+		UiPlayListTab(),
 		UiInfoTab(),
 	)
 
@@ -82,8 +84,8 @@ func Ui() fyne.CanvasObject {
 	})
 	controlBar := container.NewGridWithColumns(4, loopTitle, playPre, pause, playNext)
 
-	tabs.SetTabLocation(container.TabLocationLeading)
-	content := container.NewBorder(toolbar, controlBar, nil, nil, tabs)
+	tabs.SetTabLocation(container.TabLocationTop)
+	content := container.NewBorder(nil, controlBar, nil, nil, tabs)
 	return content
 }
 
@@ -103,6 +105,10 @@ func UiSearchTab() *container.TabItem {
 	if input.Text == "" {
 		input.SetText(source.Recommand[rand.Intn(len(source.Recommand))])
 	}
+	btnRandom := widget.NewButton("", func() {
+		input.SetText(source.Recommand[rand.Intn(len(source.Recommand))])
+	})
+	btnRandom.SetIcon(theme.ViewRefreshIcon())
 	btnSearch := widget.NewButton("搜索", func() {
 		songs := Search(input.Text)
 		playlist = playlist[:0]
@@ -110,7 +116,8 @@ func UiSearchTab() *container.TabItem {
 		RefreshSearchList()
 		log.Println("Search: ", input.Text)
 	})
-	toolBar := container.NewBorder(nil, nil, nil, btnSearch, input)
+	btnSearch.SetIcon(theme.SearchIcon())
+	toolBar := container.NewBorder(nil, nil, btnRandom, btnSearch, input)
 	searchResult := widget.NewList(
 		func() int {
 			return len(playlist)
@@ -135,8 +142,24 @@ func UiSearchTab() *container.TabItem {
 			}
 		})
 	itemContent := container.NewBorder(toolBar, nil, nil, nil, searchResult)
-	searchItem := container.NewTabItemWithIcon("", theme.SearchIcon(), itemContent)
+	searchItem := container.NewTabItemWithIcon("搜索", theme.SearchIcon(), itemContent)
 	return searchItem
+}
+
+func UiStarTab() *container.TabItem {
+	content := container.NewCenter(container.NewVBox(
+		container.NewCenter(widget.NewLabel("E9I, faker of 163")),
+		container.NewCenter(widget.NewLabel(fmt.Sprintf("Version: %s", source.Version))),
+	))
+	return container.NewTabItemWithIcon("收藏", theme.MediaMusicIcon(), content)
+}
+
+func UiPlayListTab() *container.TabItem {
+	content := container.NewCenter(container.NewVBox(
+		container.NewCenter(widget.NewLabel("E9I, faker of 163")),
+		container.NewCenter(widget.NewLabel(fmt.Sprintf("Version: %s", source.Version))),
+	))
+	return container.NewTabItemWithIcon("当前", theme.MediaPlayIcon(), content)
 }
 
 func UiInfoTab() *container.TabItem {
@@ -144,7 +167,7 @@ func UiInfoTab() *container.TabItem {
 		container.NewCenter(widget.NewLabel("E9I, faker of 163")),
 		container.NewCenter(widget.NewLabel(fmt.Sprintf("Version: %s", source.Version))),
 	))
-	return container.NewTabItemWithIcon("", theme.InfoIcon(), content)
+	return container.NewTabItemWithIcon("关于", theme.InfoIcon(), content)
 }
 
 func RefreshSearchList() {
