@@ -136,9 +136,11 @@ func UiSearchTab() *container.TabItem {
 			song := playlist[i]
 			button.SetText(fmt.Sprintf("%s(%s)", song.Name, song.GetArtistDisplay()))
 			button.OnTapped = func() {
-				current = i
-				go Play(playlist[i])
-				RefreshSearchList()
+				if current != i || !OnProcessing || currentSong.ID != song.ID {
+					current = i
+					go Play(playlist[i])
+					RefreshSearchList()
+				}
 			}
 		})
 	itemContent := container.NewBorder(toolBar, nil, nil, nil, searchResult)

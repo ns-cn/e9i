@@ -49,7 +49,7 @@ func refreshNextIndex(offset int) {
 func Play(song Song) {
 	currentSong = song
 	url := song.GetPath()
-	fmt.Println(url)
+	fmt.Println(fmt.Sprintf("%s:%s -> %s", song.Name, song.ID, url))
 	// Download the MP3 file
 	resp, err := http.Get(url)
 	if err != nil {
