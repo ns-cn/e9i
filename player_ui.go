@@ -20,7 +20,9 @@ import (
 var application fyne.Window
 
 func createApp() {
-	application = app.New().NewWindow("E9I, like 163")
+	myApp := app.New()
+	myApp.Settings().SetTheme(&MyTheme{})
+	application = myApp.NewWindow("E9I, like 163")
 }
 
 var tabs *container.AppTabs
