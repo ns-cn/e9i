@@ -16,14 +16,11 @@ import (
 
 var playlist = make([]Song, 0)
 var current = 0
+var currentSong = Song{}
 var loopType = loop.LOOP_QUEUE
 var actionChan = make(chan int)
 var OnProcessing = false
 var paused = false
-
-func Play(song Song) {
-	PlayNetease(song.GetPath())
-}
 
 func Loop() {
 	for {
@@ -49,7 +46,9 @@ func refreshNextIndex(offset int) {
 	}
 }
 
-func PlayNetease(url string) {
+func Play(song Song) {
+	currentSong = song
+	url := song.GetPath()
 	fmt.Println(url)
 	// Download the MP3 file
 	resp, err := http.Get(url)

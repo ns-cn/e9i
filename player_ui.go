@@ -121,7 +121,7 @@ func UiSearchTab() *container.TabItem {
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
 			button := o.(*widget.Button)
-			if i == current {
+			if i == current && len(playlist) > current && playlist[current].ID == currentSong.ID {
 				button.SetIcon(theme.ViewRefreshIcon())
 			} else {
 				button.SetIcon(nil)
