@@ -12,6 +12,6 @@ func main() {
 	go Loop()
 	createApp()
 	RefreshSearchList()
-	application.Resize(fyne.NewSize(400, 600))
-	application.ShowAndRun()
+	windows.Resize(fyne.NewSize(400, 600))
+	windows.ShowAndRun()
 }

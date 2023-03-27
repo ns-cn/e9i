@@ -17,12 +17,13 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-var application fyne.Window
+var windows fyne.Window
+var application fyne.App
 
 func createApp() {
-	myApp := app.New()
-	myApp.Settings().SetTheme(&MyTheme{})
-	application = myApp.NewWindow("E9I, like 163")
+	application := app.New()
+	application.Settings().SetTheme(&MyTheme{})
+	windows = application.NewWindow("E9I, like 163")
 }
 
 var tabs *container.AppTabs
@@ -173,6 +174,6 @@ func UiInfoTab() *container.TabItem {
 }
 
 func RefreshSearchList() {
-	application.SetContent(Ui())
+	windows.SetContent(Ui())
 	tabs.SelectIndex(0)
 }

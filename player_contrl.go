@@ -77,5 +77,8 @@ func Play(song Song) {
 		OnProcessing = false
 		done <- true
 	})))
+	go func() {
+		RefreshSearchList()
+	}()
 	<-done
 }
