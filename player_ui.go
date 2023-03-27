@@ -21,7 +21,7 @@ var windows fyne.Window
 var application fyne.App
 
 func createApp() {
-	application := app.New()
+	application = app.New()
 	application.Settings().SetTheme(&MyTheme{})
 	windows = application.NewWindow("E9I, like 163")
 }
